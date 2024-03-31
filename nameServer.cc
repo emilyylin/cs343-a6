@@ -15,12 +15,12 @@ void NameServer::VMregister (VendingMachine * vendingmachine){
 
 VendingMachine * NameServer::getMachine( unsigned int id ) {
     //get the current machine
-    int currMachine = assignedMachines[id]
+    unsigned int currMachine = assignedMachines[id];
     //TODO: print new vending machine
     VendingMachine * vendingMachine = vendingMachineList[currMachine];
 
     // update the next machine
-    int nextMachine = (currMachine + 1) % numVendingMachines;
+    unsigned int nextMachine = (currMachine + 1) % numVendingMachines;
     assignedMachines[id] = nextMachine;
 
     return vendingMachine;
