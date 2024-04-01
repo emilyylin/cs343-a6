@@ -1,3 +1,6 @@
+#ifndef BOTTLING_PLANT_H
+#define BOTTLING_PLANT_H
+
 #include "printer.h"
 #include "nameServer.h"
 
@@ -20,3 +23,4 @@ _Task BottlingPlant {
   private:
     unsigned int shipment[NUM_OF_FLAVOURS] = {0};
 };
+#endif

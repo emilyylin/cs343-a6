@@ -7,7 +7,7 @@ BottlingPlant::BottlingPlant( Printer & prt, NameServer & nameServer, unsigned i
         maxShippedPerFlavour(maxShippedPerFlavour), maxStockPerFlavour(maxStockPerFlavour), 
         timeBetweenShipments(timeBetweenShipments) {}
 
-~BottlingPlant::BottlingPlant() {
+BottlingPlant::~BottlingPlant() {
     //TODO: print finished
 }
 

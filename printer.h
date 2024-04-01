@@ -1,3 +1,5 @@
+#ifndef PRINTER_H
+#define PRINTER_H
 _Monitor Printer {
   public:
 	enum Kind { Parent, Groupoff, WATCardOffice, NameServer, Truck, BottlingPlant, Student, Vending, Courier };
@@ -9,3 +11,4 @@ _Monitor Printer {
 	void print( Kind kind, unsigned int lid, char state, unsigned int value1 );
 	void print( Kind kind, unsigned int lid, char state, unsigned int value1, unsigned int value2 );
 };
+#endif

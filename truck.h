@@ -8,7 +8,7 @@ _Task Truck {
 	BottlingPlant & plant;
 	unsigned int numVendingMachines;
 	unsigned int maxStockPerFlavour;
-	unsigned int cargo[BottlingPlant::Flavours::NUM_OF_FLAVOURS] = {0}
+	unsigned int cargo[BottlingPlant::Flavours::NUM_OF_FLAVOURS] = {0};
 	void main();
   public:
 	Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,

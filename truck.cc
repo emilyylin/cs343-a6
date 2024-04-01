@@ -20,5 +20,4 @@ void Truck::main() {
             break;
         }
     }
-
 }
