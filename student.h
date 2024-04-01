@@ -1,3 +1,5 @@
+#ifndef STUDENT_H
+#define STUDENT_H
 _Task Student {
 	void main();
   public:
@@ -17,3 +19,4 @@ class WATCard {
 	void withdraw( unsigned int amount );
 	unsigned int getBalance();
 };
+#endif

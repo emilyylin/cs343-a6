@@ -1,5 +1,6 @@
 #ifndef PRINTER_H
 #define PRINTER_H
+
 _Monitor Printer {
 	unsigned int numStudents;
 	unsigned int numVendingMachines;
