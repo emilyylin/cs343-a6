@@ -7,20 +7,49 @@ BottlingPlant::BottlingPlant( Printer & prt, NameServer & nameServer, unsigned i
         maxShippedPerFlavour(maxShippedPerFlavour), maxStockPerFlavour(maxStockPerFlavour), 
         timeBetweenShipments(timeBetweenShipments) {}
 
+~BottlingPlant::BottlingPlant() {
+    //TODO: print finished
+}
+
 void BottlingPlant::getShipment( unsigned int cargo[] ){
-//the shipment is copied into the cargo array passed by the truck.
-//propagates the exception Shutdown if the bottling plant is closing down, and no shipment is copied into the cargo array passed by the truck.
+    //bottling plant closes down is there is no stock
+    if(maxStockPerFlavour == 0){
+        _Throw Shutdown();
+    } 
+    
+    // else copy the shipment into the cargo
+    for (int i =0; i < NUM_OF_FLAVOURS; i++){
+        cargo[i] = shipment[i];
+    }
 }
 
 void BottlingPlant::main(){
-
     //begin by creating a truck, performing a production run, and waiting for the truck to pickup the production run. 
-    Truck truck(printer, nameServer, this, numVendingMachines, maxStockPerFlavour);
+    Truck truck(printer, nameServer, *this, numVendingMachines, maxStockPerFlavour);
 
-    //
+    //TODO: print START
 
-    //The truck then distributes these bottles to initialize the registered vending machines. 
-    //To simulate a production run of soda, the bottling plant yields for TimeBetweenShipments times (not random). 
-    //The bottling plant does not start another production run until the truck has picked up the current run. 
+    for(;;) {
+        //bottling plant yields between production runs
+        yield(timeBetweenShipments);
 
+        //start a production run
+        unsigned int produced = 0;
+        for(unsigned int i =0; i < NUM_OF_FLAVOURS; i ++){
+            unsigned int bottles = prng(0, maxShippedPerFlavour);
+            shipment[i] = bottles;
+            produced += bottles;
+        }
+        //TODO: print generating soda
+
+        // don't start another run until truck picks up the current run
+        _Accept(getShipment) {
+            //TODO: print shipment picked up  by truck
+        } or _Accept(~BottlingPlant) {
+            _Accept(getShipment) {              // let truck finish
+                _Resume Shutdown() _At truck;   // resume the exception at the truck which will stop when it catches it
+            }
+            break;
+        }
+    }
 }

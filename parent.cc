@@ -3,13 +3,14 @@
 Parent::Parent( Printer & prt, Bank & bank, unsigned int numStudents, unsigned int parentalDelay ) :
     printer(prt), bank(bank), numStudents(numStudents), parentalDelay(parentalDelay) {}
 
-Parent::~Parent() {}
+Parent::~Parent() {
+    //TODO: print finish
+}
 
 void main() {
     //TODO: print start
     for (;;) {
         _Accept(~Parent) { //parent checks for a call to its destructor to know when to terminate
-            //TODO: print finish
             break;
         } _Else { //terminating else 
             //first yield
