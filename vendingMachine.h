@@ -1,4 +1,15 @@
+#ifndef VENDING_MACHINE_H
+#define VENDING_MACHINE_H
+#include "printer.h"
+#include "nameServer.h"
+#include "bottlingPlant.h"
+#include "watcard.h"
+
 _Task VendingMachine {
+    Printer & printer;
+    NameServer & nameServer;
+    unsigned int id;
+    unsigned int sodaCost;
 	void main();
   public:
 	_Event Free {};						// free, advertisement
@@ -11,3 +22,4 @@ _Task VendingMachine {
 	_Nomutex unsigned int cost() const;
 	_Nomutex unsigned int getId() const;
 };
+#endif

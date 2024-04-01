@@ -1,4 +1,7 @@
+#include <iostream>
 #include "printer.h" 
+
+using namespace std;
 
 Printer::Printer(unsigned int numStudents, unsigned int numVendingMachines, unsigned int numCouriers) :
     numStudents(numStudents), numVendingMachines(numVendingMachines), numCouriers(numCouriers){

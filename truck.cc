@@ -1,6 +1,9 @@
 #include "truck.h"
 #include "vendingMachine.h"
 
+Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant, unsigned int numVendingMachines, unsigned int maxStockPerFlavour ):
+    printer(prt), nameServer(nameServer), plant(plant), numVendingMachines(numVendingMachines), maxStockPerFlavour(maxStockPerFlavour) {}
+
 void Truck::main() {
     // TODO: print start
 

@@ -9,4 +9,7 @@ truck.o: truck.cc /usr/local/u++-7.0.0/inc/uC++.h \
  /usr/local/u++-7.0.0/inc/uEHM.h /usr/local/u++-7.0.0/inc/uCalendar.h \
  /usr/local/u++-7.0.0/inc/uAlarm.h /usr/local/u++-7.0.0/inc/uPIHeap.h \
  /usr/local/u++-7.0.0/inc/uHeap.h \
- /usr/local/u++-7.0.0/inc/uBaseSelector.h
+ /usr/local/u++-7.0.0/inc/uBaseSelector.h truck.h printer.h nameServer.h \
+ bottlingPlant.h vendingMachine.h watcard.h \
+ /usr/local/u++-7.0.0/inc/uFuture.h \
+ /usr/local/u++-7.0.0/inc/uDefaultExecutor.h
