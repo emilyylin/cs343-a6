@@ -7,17 +7,22 @@ NameServer::NameServer( Printer & prt, unsigned int numVendingMachines, unsigned
         currMachine = 0;
 }
 
+NameServer::~NameServer(){
+    printer.print(Printer::NameServer, 'F');
+}
+
 void NameServer::VMregister (VendingMachine * vendingmachine){
-    //TODO: print registration
+    //register vending machine
     vendingMachineList[currMachine] = vendingmachine;
+    printer.print(Printer::NameServer, 'R', currMachine);
     currMachine++; //increment for the next registration
 }
 
 VendingMachine * NameServer::getMachine( unsigned int id ) {
     //get the current machine
     unsigned int currMachine = assignedMachines[id];
-    //TODO: print new vending machine
     VendingMachine * vendingMachine = vendingMachineList[currMachine];
+    printer.print(Printer::NameServer, 'N', id, currMachine); // new vending machine
 
     // update the next machine
     unsigned int nextMachine = (currMachine + 1) % numVendingMachines;
@@ -31,17 +36,17 @@ VendingMachine ** NameServer::getMachineList() {
 }
 
 void NameServer::main() {
-    //logically distribute students evenly across the vending machines in a RR fashion
+    // logically distribute students evenly across the vending machines in a RR fashion
     for (unsigned int i =0; i < numStudents; i++){
         assignedMachines[i] = i % numVendingMachines;
     }
 
-    //TODO: print start
+    // start
+    printer.print(Printer::NameServer, 'S');
 
     for (;;) {
         //wait for call to destructor to terminate
         _Accept(~NameServer) {
-            //TODO: print finish
             break;
         } _Else {
             // when all the are registered, let a  student get a machine or a truck to get machine list

@@ -8,7 +8,7 @@ BottlingPlant::BottlingPlant( Printer & prt, NameServer & nameServer, unsigned i
         timeBetweenShipments(timeBetweenShipments) {}
 
 BottlingPlant::~BottlingPlant() {
-    //TODO: print finished
+    printer.print(Printer::BottlingPlant, 'F');
 }
 
 void BottlingPlant::getShipment( unsigned int cargo[] ){
@@ -27,7 +27,8 @@ void BottlingPlant::main(){
     //begin by creating a truck, performing a production run, and waiting for the truck to pickup the production run. 
     Truck truck(printer, nameServer, *this, numVendingMachines, maxStockPerFlavour);
 
-    //TODO: print START
+    //start
+    printer.print(Printer::BottlingPlant, 'S');
 
     for(;;) {
         //bottling plant yields between production runs
@@ -36,15 +37,17 @@ void BottlingPlant::main(){
         //start a production run
         unsigned int produced = 0;
         for(unsigned int i =0; i < NUM_OF_FLAVOURS; i ++){
+            //generate soda
             unsigned int bottles = prng(0, maxShippedPerFlavour);
             shipment[i] = bottles;
             produced += bottles;
         }
-        //TODO: print generating soda
+        printer.print(Printer::BottlingPlant, 'G', produced);   // print bottles generated in production
 
         // don't start another run until truck picks up the current run
         _Accept(getShipment) {
-            //TODO: print shipment picked up  by truck
+            //shipment picked up  by truck
+            printer.print(Printer::BottlingPlant, 'P');
         } or _Accept(~BottlingPlant) {
             _Accept(getShipment) {              // let truck finish
                 _Resume Shutdown() _At truck;   // resume the exception at the truck which will stop when it catches it

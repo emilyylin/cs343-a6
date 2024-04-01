@@ -37,3 +37,27 @@ Printer::~Printer() {
     //print ending header
     cout << "***********************";
 }
+
+void Printer::print( Kind kind, char state ){
+
+}
+
+void Printer::print( Kind kind, char state, unsigned int value1 ){
+
+}
+
+void Printer::print( Kind kind, char state, unsigned int value1, unsigned int value2 ){
+
+}
+
+void Printer::print( Kind kind, unsigned int lid, char state ){
+
+}
+
+void Printer::print( Kind kind, unsigned int lid, char state, unsigned int value1 ){
+
+}
+
+void Printer::print( Kind kind, unsigned int lid, char state, unsigned int value1, unsigned int value2 ){
+
+}
