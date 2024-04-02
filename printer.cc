@@ -49,44 +49,43 @@ void Printer::StateData::print(){
 
 
 void Printer::print( Kind kind, char state ){
-    pair<Kind, unsigned int> key = make_pair(kind,0); //set lid=0 by default
-    flush(key);
-    dataBuffer.insert({key, StateData(state)});
+    pair<Kind, unsigned int> key = make_pair(kind,0);           //set lid=0 by default
+    flush(key);                                                 // flush the current buffer
+    dataBuffer.insert({key, StateData(state)});                 // insert the data
 }
 
 void Printer::print( Kind kind, char state, unsigned int value1 ){
-    pair<Kind, unsigned int> key = make_pair(kind,0); //set lid=0 by default
-    flush(key);
-    dataBuffer.insert({key, StateData(state,value1)});
+    pair<Kind, unsigned int> key = make_pair(kind,0);           //set lid=0 by default
+    flush(key);                                                 // flush the current buffer
+    dataBuffer.insert({key, StateData(state,value1)});          // insert the data
 }
 
 void Printer::print( Kind kind, char state, unsigned int value1, unsigned int value2 ){
-    pair<Kind, unsigned int> key = make_pair(kind,0); //set lid=0 by default
-    flush(key);
-    dataBuffer.insert({key, StateData(state,value1,value2)});
+    pair<Kind, unsigned int> key = make_pair(kind,0);           //set lid=0 by default
+    flush(key);                                                 // flush the current buffer
+    dataBuffer.insert({key, StateData(state,value1,value2)});   // insert the data
 }
 
 void Printer::print( Kind kind, unsigned int lid, char state ){
-    pair<Kind, unsigned int> key = make_pair(kind,lid);
-    flush(key);
-    dataBuffer.insert({key, StateData(state)});
+    pair<Kind, unsigned int> key = make_pair(kind,lid);         // make a key with the kind and lid
+    flush(key);                                                 // flush the current buffer
+    dataBuffer.insert({key, StateData(state)});                 // insert the data
 }
 
 void Printer::print( Kind kind, unsigned int lid, char state, unsigned int value1 ){
-    pair<Kind, unsigned int> key = make_pair(kind,lid);
-    flush(key);
-    dataBuffer.insert({key, StateData(state,value1)});
+    pair<Kind, unsigned int> key = make_pair(kind,lid);          // make a key with the kind and lid
+    flush(key);                                                  // flush the current buffer
+    dataBuffer.insert({key, StateData(state,value1)});           // insert the data
 }
 
 void Printer::print( Kind kind, unsigned int lid, char state, unsigned int value1, unsigned int value2 ){
-    pair<Kind, unsigned int> key = make_pair(kind,lid); //set lid=0 by default
-    flush(key);
-    dataBuffer.insert({key, StateData(state,value1,value2)});
+    pair<Kind, unsigned int> key = make_pair(kind,lid);         // make a key with the kind and lid
+    flush(key);                                                 // flush the current buffer
+    dataBuffer.insert({key, StateData(state,value1,value2)});   // insert the data
 }
 
-
 void Printer::flush(pair<Kind,unsigned int> keyCheck){
-    //check for existence in buffer
+    //check for existence in buffer, if it doesn't exist, return
     if(!dataBuffer.count(keyCheck)){return;}
 
     // flush from parent to bottling plant (0 to 5)
@@ -101,15 +100,19 @@ void Printer::flush(pair<Kind,unsigned int> keyCheck){
 
     // flush the data with lids
     for (unsigned int lid = 0; lid < numStudents; lid++){
-       pair<Kind, unsigned int> key = make_pair(Student,lid);
-       if(dataBuffer.count(key)>0){
+        // make a key with the student kind and lid
+        pair<Kind, unsigned int> key = make_pair(Student,lid);
+        //check for the key existence in the buffer, if it exists, print the information
+        if(dataBuffer.count(key)>0){
             dataBuffer[key].print();
-       }
-       if(lid!=numStudents-1){cout<<"\t";} // print a tab if not last column
+        }
+        if(lid!=numStudents-1){cout<<"\t";} // print a tab if not last column
     }
 
     for(unsigned int lid =0; lid < numVendingMachines; lid++){
+        // make a key with the vending kind and lid
         pair<Kind, unsigned int> key = make_pair(Vending,lid);
+        //check for the key existence in the buffer, if it exists, print the information
         if(dataBuffer.count(key)>0){
             dataBuffer[key].print();
         }
@@ -117,7 +120,9 @@ void Printer::flush(pair<Kind,unsigned int> keyCheck){
     }
 
     for(unsigned int lid =0; lid < numCouriers; lid++){
+        // make a key with the courier kind and lid
         pair<Kind, unsigned int> key = make_pair(Courier,lid);
+        //check for the key existence in the buffer, if it exists, print the information
         if(dataBuffer.count(key)>0){
             dataBuffer[key].print();
         }
