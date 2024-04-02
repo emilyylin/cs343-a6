@@ -23,8 +23,9 @@ _Monitor Printer {
   private:
 	struct StateData{
 		char state;
-		unsigned int value1 = -1;
-		unsigned int value2 = -1;
+		int value1 = -1;
+		int value2 = -1;
+		StateData(){};
 		StateData(char state):state(state){};
 		StateData(char state,unsigned int value1):state(state),value1(value1){};
 		StateData(char state,unsigned int value1,unsigned int value2):state(state),value1(value1),value2(value2){};
