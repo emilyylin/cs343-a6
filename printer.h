@@ -3,15 +3,14 @@
 
 using namespace std;
 #include <map>
-#include <variant>
+#include <iostream>
 
 _Monitor Printer {
-
 	unsigned int numStudents;
 	unsigned int numVendingMachines;
 	unsigned int numCouriers;
-  public:
 	
+  public:
 	enum Kind { Parent, Groupoff, WATCardOffice, NameServer, Truck, BottlingPlant, Student, Vending, Courier };
 	Printer( unsigned int numStudents, unsigned int numVendingMachines, unsigned int numCouriers );
 	~Printer(); // destructor
@@ -22,24 +21,16 @@ _Monitor Printer {
 	void print( Kind kind, unsigned int lid, char state, unsigned int value1 );
 	void print( Kind kind, unsigned int lid, char state, unsigned int value1, unsigned int value2 );
   private:
-	
 	struct StateData{
-		Kind kind;
 		char state;
+		unsigned int value1 = -1;
+		unsigned int value2 = -1;
+		StateData(char state):state(state){};
+		StateData(char state,unsigned int value1):state(state),value1(value1){};
+		StateData(char state,unsigned int value1,unsigned int value2):state(state),value1(value1),value2(value2){};
+		void print();
 	};
-	struct StateValue1Data{
-		Kind kind;
-		char state;
-		unsigned int lid;
-		unsigned int value1;
-	};
-	struct StateValue2Data{
-		Kind kind;
-		char state;
-		unsigned int lid;
-		unsigned int value1;
-		unsigned int value2;
-	};
-	map<Kind, variant<StateData, StateValue1Data, StateValue2Data>> dataBuffer;
+	map<pair<Kind,unsigned int>, StateData> dataBuffer;
+	void flush(pair<Kind,unsigned int> key);
 };
 #endif
