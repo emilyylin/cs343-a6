@@ -128,7 +128,7 @@ void Printer::flush(pair<Kind,unsigned int> keyCheck){
         }
         if(lid!=numCouriers-1){cout<<"\t";} // print a tab if not last column
     }
-
+    cout << endl;
     //clear the buffer
     dataBuffer.clear();
 }
