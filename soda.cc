@@ -1,6 +1,16 @@
 #include <uPRNG.h>
 #include <iostream>
 #include <string>
+#include "config.h"
+#include "printer.h"
+#include "bank.h"
+#include "parent.h"
+#include "watcardOffice.h"
+#include "groupoff.h"
+#include "nameServer.h"
+#include "vendingMachine.h"
+#include "bottlingPlant.h"
+#include "student.h"
 
 using namespace std;
 
@@ -43,4 +53,39 @@ int main( int argc, char * argv[] ) {
 	} // try
 
 	uProcessor p[processors - 1]; // create more kernel thread
+
+	//process config file
+	ConfigParams config;
+	processConfigFile(configFile, config);
+
+	//create in order: printer, bank, parent, WATCard office, groupoff, name server, vending machines, bottling plant, and students. 
+	Printer printer( config.numStudents, config.numVendingMachines, config.numCouriers );		// create printer
+	Bank bank(config.numStudents); 																// create bank
+	
+	Parent parent(printer, bank, config.numStudents, config.parentalDelay);						// create parent
+	
+	WATCardOffice watcardOffice(printer, bank, config.numCouriers);								// create watcardoffice
+	
+	Groupoff groupoff(printer, config.numStudents, config.sodaCost, config.groupoffDelay);		// create groupoff
+	
+	NameServer nameServer(printer, config.numVendingMachines, config.numStudents);				// create name server
+	
+	VendingMachine *vendingMachines[config.numVendingMachines];									// create vending machines
+	for (unsigned int i = 0; i < config.numVendingMachines; i++){
+		vendingMachines[i] = new VendingMachine(printer, nameServer, i, config.sodaCost);
+	}
+
+	BottlingPlant *bottlingPlant = new BottlingPlant(printer, nameServer, 						// create bottling plant
+	config.numVendingMachines, config.maxShippedPerFlavour, config.maxStockPerFlavour, config.timeBetweenShipments);
+
+	Student *students[config.numStudents];														// create students
+	for (unsigned int i = 0; i < config.numStudents; i++){
+		students[i] = new Student(printer, nameServer, watcardOffice, groupoff, i, config.maxPurchases);
+	}
+
+	// terminate after students have purchased their number of bottles
+	delete bottlingPlant; 											// delete bottling plant
+	for (unsigned int i =0; i < config.numVendingMachines; i++){	// delete vending machines
+		delete vendingMachines[i];
+	}
 }

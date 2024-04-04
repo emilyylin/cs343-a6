@@ -10,4 +10,7 @@ soda.o: soda.cc /usr/local/u++-7.0.0/inc/uC++.h \
  /usr/local/u++-7.0.0/inc/uAlarm.h /usr/local/u++-7.0.0/inc/uPIHeap.h \
  /usr/local/u++-7.0.0/inc/uHeap.h \
  /usr/local/u++-7.0.0/inc/uBaseSelector.h \
- /usr/local/u++-7.0.0/inc/uPRNG.h
+ /usr/local/u++-7.0.0/inc/uPRNG.h config.h printer.h bank.h parent.h \
+ watcardOffice.h groupoff.h nameServer.h vendingMachine.h bottlingPlant.h \
+ watcard.h /usr/local/u++-7.0.0/inc/uFuture.h \
+ /usr/local/u++-7.0.0/inc/uDefaultExecutor.h student.h
