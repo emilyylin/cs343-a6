@@ -55,7 +55,7 @@ int main( int argc, char * argv[] ) {
 	uProcessor p[processors - 1]; // create more kernel thread
 
 	//process config file
-	ConfigParams config;
+	ConfigParms config;
 	processConfigFile(configFile, config);
 
 	//create in order: printer, bank, parent, WATCard office, groupoff, name server, vending machines, bottling plant, and students. 

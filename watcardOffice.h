@@ -15,7 +15,7 @@ _Task WATCardOffice {
 		WATCard * card;
 	}
 	struct Job {							// marshalled arguments and return future
-		Args args;							// call arguments (YOU DEFINE "Args")
+		//Args args;							// call arguments (YOU DEFINE "Args")
 		WATCard::FWATCard result;			// return future
 		Job( Args args ) : args( args ) {}
 	};
@@ -33,8 +33,10 @@ _Task WATCardOffice {
 	Courier** couriers;
 	queue<Job*> jobs;
 	void main();
+
   public:
 	_Event Lost {};							// lost WATCard
+	
 	WATCardOffice( Printer & prt, Bank & bank, unsigned int numCouriers );
 	~WATCardOffice();
 	WATCard::FWATCard create( unsigned int sid, unsigned int amount ) __attribute__(( warn_unused_result ));
