@@ -10,21 +10,20 @@
 using namespace std;
 
 _Task WATCardOffice {
-	struct Args{
+
+	struct Job {							// marshalled arguments and return future
 		unsigned int sid, amount;
 		WATCard * card;
-	}
-	struct Job {							// marshalled arguments and return future
-		//Args args;							// call arguments (YOU DEFINE "Args")
 		WATCard::FWATCard result;			// return future
-		Job( Args args ) : args( args ) {}
+		Job( unsigned int sid, unsigned int amount, WATCard* card) : sid(sid), amount(amount), card(card) {}
 	};
-	_Task Courier { 
+	_Task Courier {
+		unsigned int id; 
 		Bank & bank;
 		Printer & printer;
 		void main();
 		public: 
-			Courier();
+			Courier(unsigned int id);
 	};					// communicates with bank
 
 	Printer & printer;
