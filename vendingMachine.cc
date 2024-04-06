@@ -70,7 +70,7 @@ void VendingMachine::main () {
     }
 
     //finished
-    printer.print(Printer::Vending, 'F');
+    printer.print(Printer::Vending, id, 'F');
     
 }
 
@@ -89,7 +89,7 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
 
         // Once a purchase is possible, there is a 1 in 5 chance the soda is free
         // indicated by raising exception Free
-        if ((rand() % 5)==1) {
+        if (prng(1,5)==1) {
             _Throw VendingMachine::Free
             printer.print(Printer::Vending, id, 'A');
 
@@ -107,6 +107,7 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
 
 // the truck calls restocked to indicate the operation is complete
 void VendingMachine::restocked () {
+    restocking=false;
 }
 
 // The truck calls inventory to return a pointer to an array containing the amount each kind of soda currently in the vending machine.
