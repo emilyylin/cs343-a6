@@ -38,6 +38,7 @@ void Groupoff::main() {
             printer.print(Printer::Groupoff, 'D', sodaCost);
 
             giftCards[randStudent].delivery(card);
+            delete card;
 
             //remove giftcard
             giftCards.erase(giftCards.begin()+randStudent);
@@ -48,19 +49,11 @@ void Groupoff::main() {
 
 Groupoff::Groupoff ( Printer & prt, unsigned int numStudents, unsigned int sodaCost, unsigned int groupoffDelay ) : 
     printer(prt), numStudents(numStudents), sodaCost(sodaCost), groupoffDelay(groupoffDelay) {
-        //giftCards = new WATCard::FWATCard[numStudents]; // set initial size to numstudents
-
         currStudent=0;
+        giftCards.resize(numStudents);
 }
 
 Groupoff::~Groupoff () {
-
-    //delete giftcards
-    //for (unsigned int i =0; i < giftCards.size(); i++){
-      //  delete giftCards[i]();
-   // }
-
-    //delete[] giftCards;
     printer.print(Printer::Groupoff, 'F');
 }
 

@@ -14,8 +14,8 @@ _Task Groupoff {
 	unsigned int groupoffDelay;
 
 	//WATCard::FWATCard* giftCards;
-	vector<WATCard::FWATCard> giftCards;
-	//vector<WATCard *> cards;	// list of cards assigned real WATCards
+	vector<WATCard::FWATCard > giftCards;
+	// vector<WATCard *> cards;	// list of cards assigned real WATCards
 
 	void main();
 

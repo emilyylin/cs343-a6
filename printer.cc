@@ -30,7 +30,7 @@ Printer::Printer(unsigned int numStudents, unsigned int numVendingMachines, unsi
     //print separators
     int totalSeparators = 6 + numStudents+numVendingMachines+numCouriers;
     cout << "*******";
-    for(int i =0; i < totalSeparators; i++){
+    for(int i =0; i < totalSeparators-1; i++){
         cout << "\t" << "*******";
     }
     cout << endl;
