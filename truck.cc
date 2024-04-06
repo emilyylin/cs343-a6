@@ -30,37 +30,87 @@ Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant, uns
 
 void Truck::main() {
     
-    printer.print(Printer::Truck, 'S')
-
+    printer.print(Printer::Truck, 'S'); // starting
+    unsigned int currVM = 0; // keep track of the current vending machine
+   
     // the truck begins by obtaining the location of each vending machine from the nameserver
     VendingMachine ** vendingMachines = nameServer.getMachineList();
 
     try {  
         for (;;) {
+
             yield(prng(1,10)); // yield to get coffee
             
             // try to get a shippment
             _Enable{
                 plant.getShipment(cargo);     
             }
-
-            //any soda still on the truck is thrown away 
             
-            //vending machines are restocked in cyclic order starting at
-            //the vending machine after the last machine the truck restocked
-            // until there is no more soda on the truck or the truck has made a complete cycle of all the vending machines
+            unsigned int totalSodas = 0;        //any soda still on the truck is thrown away, set to 0 
+            
+            //count total sodas from shipment
+            for (unsigned int i = 0; i < BottlingPlant::NUM_OF_FLAVOURS; i++){
+                totalSodas += cargo[i];
+            }
+            printer.print(Printer::Truck, 'P', totalSodas);
+
+            // until truck has made a complete cycle of all the vending machines
             for (unsigned int i = 0; i < numVendingMachines; i++) {
+                //loop until there is no more soda
+                if (totalSodas == 0) {
+                    break;
+                }
+
+                //start from vending machine after last machine the truck restocked
+                VendingMachine * machine = vendingMachines[currVM];
+
+                printer.print(Printer::Truck, 'd', machine->getId(), totalSodas);
+
+                // call inventory to get each kind of soda currently in machine
+                unsigned int *currStock = machine->inventory();
+
+                unsigned int unreplenished = 0;
+
+                for (unsigned int j = 0; j < BottlingPlant::NUM_OF_FLAVOURS; j++) {
+                    
+                    //check if truck has enough stock to top up
+                    unsigned int toTopUp = maxStockPerFlavour - currStock[j];
+
+                    if (cargo[j] < maxStockPerFlavour) {
+                        unreplenished += toTopUp;
+                        //fill up as many bottles as it has
+                        toTopUp = cargo[j];
+                    }
+
+                    cargo[j]-=toTopUp;
+                    currStock[j]+=toTopUp;
+                    totalSodas -= toTopUp;
+
+                } 
+
+                // if there are more than 0 unreplenished bottles, print
+                if (unreplenished > 0) {
+                    printer.print(Printer::Truck, 'U', machine->getId(), unreplenished);
+                }
                 
+                // complete the delivery and notify the machine
+                printer.print(Printer::Truck, 'D', machine->getId(), totalSodas);   //todo: replace total sodas w total amt remaining
+                machine->restocked();
+                
+                currVM = (currVM+1)%numVendingMachines; // increment next vending machine
             }
 
-            
-
+            //flat tire 
+            if (prng(1,100)==1) {
+                printer.print(Printer::Truck, 'W');
+                yield(10);
+            }
 
         }
 
     // when the plant shuts down, exit
-    } catch (BottlingPlant::Shutdown &) {
-    }
+    } catch (BottlingPlant::Shutdown &) {}
 
-    _Accept(~Truck);
+    _Accept(~Truck); // do we need this?
+    printer.print(Printer::Truck, 'F'); // finish
 }
