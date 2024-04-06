@@ -5,14 +5,24 @@
 
 using namespace std;
 
+/*
+A vending machine prints the following information:
+State Meaning Additional Information
+S c starting cost c per bottle
+r start reloading by truck
+R complete reloading by truck
+A free soda, advertisement
+B f,r student bought a soda soda flavour f purchased, amount remaining r of this flavour
+F finished
+*/
+
 // A vending machine’s function is to sell soda to students at some cost.
 // id : range [0, NumVendingMachines) for identification
 // sodaCost: the MSRP price for a bottle of soda
 VendingMachine::VendingMachine( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int sodaCost ):
     printer(prt), nameServer(nameServer), id(id), sodaCost(sodaCost) {
     
-    //starting (prints favorite soda f, number of bottles b to purchase)
-    printer.print(Printer::Vending, 'S', id, sodaCost);
+    printer.print(Printer::Vending, id, 'S', id, sodaCost);
 
     // A new vending machine is empty (no stock)
     for ( unsigned int i = 0; i < BottlingPlant::Flavours::NUM_OF_FLAVOURS; i++ ) {
@@ -39,16 +49,12 @@ void VendingMachine::main () {
                 restocking=true;
 
                 //start reloading by truck
-                printer.print(Printer::Vending, 'r');
+                printer.print(Printer::Vending, id, 'r');
 
-                // The truck uses this information to transfer as much of its stock as fits into the machine;
-                // for each kind of soda, no more than MaxStockPerFlavour per flavour can be added to a machine
-                // If the truck cannot top-up a particular flavour because there is insufficient stock, it transfers as many bottles as it has (which could be 0)
-                // After transferring new soda into the machine by directly modifying the array passed from inventory  
-
-                //finish reloading by truck
-                printer.print(Printer::Vending, 'R'); 
-
+                _Accept (restocked) {
+                    //finish reloading by truck
+                    printer.print(Printer::Vending, id, 'R'); 
+                }
 
             // The vending machine cannot accept buy calls during restocking
             } or _When(!restocking) _Accept (buy) {
@@ -57,8 +63,8 @@ void VendingMachine::main () {
                 restocking=false;
             }
 
-        } catch () {
-
+        } catch (uMutexFailure::RendezvousFailure &) {
+            //all exceptions go to student
         }
 
     }
@@ -72,11 +78,11 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
 
     //checks first if the student has sufficient funds to purchase the soda
     if (card.getBalance() < sodaCost ) {
-        status = Funds;
+        _Throw VendingMachine::Funds
 
     //checks second if the specified soda is available
     } else if (sodasInStock[flavour]==0) {
-        status = Stock;
+        _Throw VendingMachine::Stock
 
     } else {
         sodasInStock[flavour]--;
@@ -84,7 +90,8 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
         // Once a purchase is possible, there is a 1 in 5 chance the soda is free
         // indicated by raising exception Free
         if ((rand() % 5)==1) {
-            status = Free;
+            _Throw VendingMachine::Free
+            printer.print(Printer::Vending, id, 'A');
 
         } else {
             // the student’s WATCard is debited by the cost of a soda
@@ -93,9 +100,8 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
 
     }
     
-
     //student bought a soda
-    printer.print(Printer::Vending, 'B', flavour, amountRemaining);
+    printer.print(Printer::Vending, id, 'B', flavour, amountRemaining);
 
 }
 
