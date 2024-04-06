@@ -2,9 +2,9 @@
 #define BANK_H
 
 _Monitor Bank {
-
 	unsigned int numStudents;
-
+	unsigned int* balance;
+	uCondition *accountWait;
   public:
 	Bank( unsigned int numStudents );
 	~Bank();

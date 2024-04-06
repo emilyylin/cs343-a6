@@ -11,6 +11,10 @@ _Task VendingMachine {
     Printer & printer;
     NameServer & nameServer;
 
+	unsigned int sodasInStock[BottlingPlant::NUM_OF_FLAVOURS];
+	
+	bool restocking;
+
     unsigned int id;
     unsigned int sodaCost;
 	void main();

@@ -56,7 +56,7 @@ int main( int argc, char * argv[] ) {
 
 	//process config file
 	ConfigParms config;
-	processConfigFile(configFile, config);
+	processConfigFile(configFile.c_str(), config);
 
 	//create in order: printer, bank, parent, WATCard office, groupoff, name server, vending machines, bottling plant, and students. 
 	Printer printer( config.numStudents, config.numVendingMachines, config.numCouriers );		// create printer
@@ -81,6 +81,10 @@ int main( int argc, char * argv[] ) {
 	Student *students[config.numStudents];														// create students
 	for (unsigned int i = 0; i < config.numStudents; i++){
 		students[i] = new Student(printer, nameServer, watcardOffice, groupoff, i, config.maxPurchases);
+	}
+
+	for (unsigned int i = 0; i < config.numStudents; i++){			// delete students
+		delete students[i];
 	}
 
 	// terminate after students have purchased their number of bottles

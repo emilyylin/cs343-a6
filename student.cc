@@ -1,7 +1,4 @@
 #include "student.h"
-#include "watcard.h"
-#include "groupoff.h"
-#include "vendingMachine.h"
 
 using namespace std;
 
@@ -22,17 +19,17 @@ void Student::main () {
     // start by selecting a random number of bottles to purchase
     unsigned int numBottles = prng(1,maxPurchases);
     // select a random favourite flavour
-    unsigned int faveFlavour = prng(4);
+    BottlingPlant::Flavours faveFlavour = static_cast<BottlingPlant::Flavours>(prng(4));
 
-    printer.print(Printer::Student, id, 'S', randFlavour, numBottles);
+    printer.print(Printer::Student, id, 'S', faveFlavour, numBottles);
 
     // create a watcard from watcardoffice with a $5 balance
-    WATCard::FWATCard watcard = cardOffice(id, 5);
+    WATCard::FWATCard watcard = cardOffice.create(id, 5);
     //create a gift card from groupoff with value of sodacost
     WATCard::FWATCard giftcard = groupoff.giftCard();
 
     //card used to make the payment
-    WATCard * card;
+    WATCard* card;
 
     //obtain location of a vending machine from the nameserver
     VendingMachine * v = nameServer.getMachine(id);
@@ -48,33 +45,34 @@ void Student::main () {
             try{
                 _Select(giftcard){ // use giftcard first
                     try{
-                        card = giftcard;
+                        card = giftcard();
+                        
                         v->buy(faveFlavour,*card);
-                        printer.print(Printer::Student, id, 'G', faveFlavour, card->getBalance);
+                        printer.print(Printer::Student, id, 'G', faveFlavour, card->getBalance());
 
                         // reset to prevent further usage
                         giftcard.reset();
                         break; // break out of the for loop, start next purchase
                     } catch (VendingMachine::Free &){
-                        printer.print(Printer::Student, id, 'a', faveFlavour, card->getBalance);
+                        printer.print(Printer::Student, id, 'a', faveFlavour, card->getBalance());
                         throw VendingMachine::Free();
                     }
 
                 } or _Select(watcard){
                     try {
-                        card = watcard;
+                        card = watcard();
                         v->buy(faveFlavour,*card);
-                        printer.print(Printer::Student, id, 'B', faveFlavour, card->getBalance);
+                        printer.print(Printer::Student, id, 'B', faveFlavour, card->getBalance());
                         break;  // break out of the for loop, start next purchase
                     } catch (VendingMachine::Free &) {
-                        printer.print(Printer::Student, id, 'A', faveFlavour, card->getBalance)
+                        printer.print(Printer::Student, id, 'A', faveFlavour, card->getBalance());
                         throw VendingMachine::Free();
                     }
                 }         
             } catch(WATCardOffice::Lost){
                 watcard.reset();
                 //create a new WATCard from the WATCardOffice with a $5 balance
-                watcard = cardOffice(id, 5);
+                watcard = cardOffice.create(id, 5);
                 //d re-attempt to purchase a soda without yielding as a purchase has not occurred
 
             } catch(VendingMachine::Free &){
@@ -89,12 +87,12 @@ void Student::main () {
 
             // transfers the current vending-machine soda-cost plus $5 to their WATCard via the WATCard office
             } catch(VendingMachine::Funds &){
-                watcard = cardOffice.transfer(id, v.sodaCost+5, card)
+                watcard = cardOffice.transfer(id, v->cost()+5, watcard());
                 break;
 
             // obtain a new vending machine from the name server and attempt another purchase
             } catch (VendingMachine::Stock &){
-                v = nameServer.getMachine(id)
+                v = nameServer.getMachine(id);
                 printer.print(Printer::Student, id, 'V', v->getId());
             }
         } // for(;;)
@@ -104,9 +102,5 @@ void Student::main () {
 
 // id in the range [0, NumStudents) for identification.
 Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, Groupoff & groupoff, unsigned int id, unsigned int maxPurchases ) : 
-printer(prt), nameServer(nameServer), cardOffice(cardOffice), groupoff,(groupoff), id(id), maxPurchases(maxPurchases){
-
-    
-
-}
+printer(prt), nameServer(nameServer), cardOffice(cardOffice), groupoff(groupoff), id(id), maxPurchases(maxPurchases){}
 

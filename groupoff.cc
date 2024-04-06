@@ -10,11 +10,11 @@ F finished
 
 void Groupoff::main() {
 
-    printer.print(Printer::Groupoff, 'S')
+    printer.print(Printer::Groupoff, 'S');
 
     // accepting a call from all students to obtain a future gift-card
     for (unsigned int i = 0 ; i < numStudents; i++ ) {
-        _Accept (giftcard);
+        _Accept (giftCard);
     }
 
     //loops until all the future gift-cards are assigned a real WATCard
@@ -28,17 +28,19 @@ void Groupoff::main() {
             yield(groupoffDelay);
 
             //assign each future giftcard a real watcard
-            Watcard * card = new WATCard();
+            WATCard * card = new WATCard();
 
-            //create a gift card from groupoff with value of sodacost
-            printer.print(Printer::Groupoff, 'G', sodaCost)
+            //creates and puts a real WATCard with value SodaCost
             card->deposit(sodaCost);
 
-            // periodically creates and puts a real WATCard with value SodaCost into a random future gift-card
-            
-            
+            // puts into random future gift-card  
+            unsigned int randStudent = prng(giftCards.size());
+            printer.print(Printer::Groupoff, 'D', sodaCost);
 
+            giftCards[randStudent].delivery(card);
 
+            //remove giftcard
+            giftCards.erase(giftCards.begin()+randStudent);
         }
     }
 
@@ -46,15 +48,23 @@ void Groupoff::main() {
 
 Groupoff::Groupoff ( Printer & prt, unsigned int numStudents, unsigned int sodaCost, unsigned int groupoffDelay ) : 
     printer(prt), numStudents(numStudents), sodaCost(sodaCost), groupoffDelay(groupoffDelay) {
+        //giftCards = new WATCard::FWATCard[numStudents]; // set initial size to numstudents
 
+        currStudent=0;
 }
 
 Groupoff::~Groupoff () {
 
+    //delete giftcards
+    //for (unsigned int i =0; i < giftCards.size(); i++){
+      //  delete giftCards[i]();
+   // }
+
+    //delete[] giftCards;
+    printer.print(Printer::Groupoff, 'F');
 }
 
 
 WATCard::FWATCard Groupoff::giftCard() {
-
-    return giftcard;
+    return giftCards[currStudent];
 }

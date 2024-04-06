@@ -36,12 +36,12 @@ VendingMachine::VendingMachine( Printer & prt, NameServer & nameServer, unsigned
 
 void VendingMachine::main () {
     
-    bool restocking = false;
+    restocking = false;
 
     while (true) {
         // Use concurrent exceptions to raise Funds, Stock or Free on the correct task.
         try {
-            When(!restocking) _Accept(~VendingMachine) {
+            _When(!restocking) _Accept(~VendingMachine) {
                 //skip to finished
                 break;
 
@@ -78,11 +78,11 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
 
     //checks first if the student has sufficient funds to purchase the soda
     if (card.getBalance() < sodaCost ) {
-        _Throw VendingMachine::Funds
+        _Throw VendingMachine::Funds();
 
     //checks second if the specified soda is available
     } else if (sodasInStock[flavour]==0) {
-        _Throw VendingMachine::Stock
+        _Throw VendingMachine::Stock();
 
     } else {
         sodasInStock[flavour]--;
@@ -90,18 +90,18 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
         // Once a purchase is possible, there is a 1 in 5 chance the soda is free
         // indicated by raising exception Free
         if (prng(1,5)==1) {
-            _Throw VendingMachine::Free
+            _Throw VendingMachine::Free();
             printer.print(Printer::Vending, id, 'A');
 
         } else {
             // the student’s WATCard is debited by the cost of a soda
-            watcard.withdraw(sodaCost);
+            card.withdraw(sodaCost);
         }
 
     }
     
     //student bought a soda
-    printer.print(Printer::Vending, id, 'B', flavour, amountRemaining);
+    printer.print(Printer::Vending, id, 'B', flavour, sodasInStock[flavour]);
 
 }
 
@@ -121,6 +121,6 @@ _Nomutex unsigned int VendingMachine::cost() const {
 }
 
 // The getId member returns the identification number of the vending machine.
-_Nomutex unsigned int VendingMachine::getId() const () {
+_Nomutex unsigned int VendingMachine::getId() const {
     return id;
 }

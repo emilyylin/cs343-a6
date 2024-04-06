@@ -26,8 +26,6 @@ Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant, uns
 
 }
 
-
-
 void Truck::main() {
     
     printer.print(Printer::Truck, 'S'); // starting
@@ -45,7 +43,7 @@ void Truck::main() {
             _Enable{
                 plant.getShipment(cargo);     
             }
-            
+
             unsigned int totalSodas = 0;        //any soda still on the truck is thrown away, set to 0 
             
             //count total sodas from shipment
@@ -111,6 +109,5 @@ void Truck::main() {
     // when the plant shuts down, exit
     } catch (BottlingPlant::Shutdown &) {}
 
-    _Accept(~Truck); // do we need this?
     printer.print(Printer::Truck, 'F'); // finish
 }

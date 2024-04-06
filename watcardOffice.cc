@@ -21,17 +21,21 @@ T s,a complete funds transfer student s requesting transfer, amount a of transfe
 F finished
 */
 
+WATCardOffice::Courier::Courier (unsigned int id, WATCardOffice &cardOffice, Printer &printer, Bank & bank): 
+    id(id), cardOffice(cardOffice), printer(printer), bank(bank) {
+}
+
 void WATCardOffice::Courier::main() {
 
     //goes through all of the jobs in the queue
     for (;;) {
-        WatCardOffice::Job * job = cardOffice.requestWork();
+        WATCardOffice::Job * job = cardOffice.requestWork();
         if (job == nullptr) {
             break;              // break out of the for loop if no work available (blocks)
         } 
 
         // start funds transfer
-        printer.print(Printer::Courier, id, 't', job->sid, job->amouont);
+        printer.print(Printer::Courier, id, 't', job->sid, job->amount);
 
         // withdraw to transfer money for student
         bank.withdraw(job->sid, job->amount);
@@ -45,7 +49,7 @@ void WATCardOffice::Courier::main() {
             printer.print(Printer::Courier, id, 'L', job->sid);
 
             // exception WATCardOffice::Lost is inserted into the future
-            job->result.exception(new Lost)
+            job->result.exception(new Lost);
 
             // the current watcard is deleted
             delete job->card;
@@ -66,30 +70,30 @@ void WATCardOffice::Courier::main() {
 }
 
 void WATCardOffice::main() {
-    printer.print(Printer::WATCArdOffice, 'S');
+    printer.print(Printer::WATCardOffice, 'S');
     // complete jobs
     for (;;){
         _When (!jobs.empty()) _Accept (requestWork) { // while there are still jobs, accept work
             printer.print(Printer::WATCardOffice, 'W'); //request work call complete
-        } or _Accept (~WatCardOffice()) { // finished work when jobs list is empty
+        } or _Accept (~WATCardOffice) { // finished work when jobs list is empty
             break;
-        } or Accept(transfer || create);
+        } or _Accept(transfer || create) {};
     }
 }
 
 WATCardOffice::WATCardOffice( Printer & prt, Bank & bank, unsigned int numCouriers ) : 
-    printer(printer), bank(bank), numCouriers(numCouriers){
+    printer(prt), bank(bank), numCouriers(numCouriers){
     // initially creates a fixed size courier pool with num couriers to communicate with the bank
     couriers = new Courier* [numCouriers];
     for (unsigned int i = 0; i < numCouriers; i++){
         printer.print(Printer::Courier, i, 'S');
-        couriers[i] = new Courier();
+        couriers[i] = new Courier(i, *this, printer, bank);
     }
 
 }
 
-WatCardOffice::~WatCardOffice() {
-    printer.print(Printer::WATCardOffice, id, 'F');
+WATCardOffice::~WATCardOffice() {
+    printer.print(Printer::WATCardOffice, 'F');
     // delete couriers
     for (unsigned int i =0; i < numCouriers; i++){
         delete couriers[i];
@@ -101,9 +105,9 @@ WATCard::FWATCard WATCardOffice::create( unsigned int sid, unsigned int amount )
     // create a real watcard with an initial balance
     WATCard *card = new WATCard();
     // create a new job and add to queue of jobs
-    Job *job = new Job(Args(sid, amount, card));
+    Job *job = new Job(sid, amount, card);
     jobs.push(job);
-    printer.print(Printer::WatCardOffice, 'C', sid, amount);
+    printer.print(Printer::WATCardOffice, 'C', sid, amount);
     
     // a future watcard is returned and sufficient funds are obtained from the bank via a courier 
     return job->result;
@@ -113,17 +117,20 @@ WATCard::FWATCard WATCardOffice::create( unsigned int sid, unsigned int amount )
 // transfer funds from a student's bank account to watcard by sending a request through a courier to the bank
 WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount, WATCard * card ) {
     //create a new job and add to queue of jobs
-    Job *job = new Job(Args(sid, amount, card))
+    Job *job = new Job(sid, amount, card);
     jobs.push(job);
-    printer.print(Printer::WatCardOffice, 'T', sid, amount);
+    printer.print(Printer::WATCardOffice, 'T', sid, amount);
     
     // a future watcard is returned and sufficient funds are obtained from the bank via a courier 
     return job->result;
 }
 
 // called by courier task
-WatCardOffice::Job * WATCardOffice::requestWork(){
+WATCardOffice::Job * WATCardOffice::requestWork(){
     // blocks until a job request is ready and then receieves the next job request as the result of the call
     if (jobs.empty()) return nullptr;
-    return jobs.pop();
+    Job *job = jobs.front();
+    jobs.pop();
+
+    return job;
 }
