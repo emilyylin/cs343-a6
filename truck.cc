@@ -74,10 +74,10 @@ void Truck::main() {
                     //check if truck has enough stock to top up
                     unsigned int toTopUp = maxStockPerFlavour - currStock[j];
 
-                    if (cargo[j] < maxStockPerFlavour) {
-                        unreplenished += toTopUp;
+                    if (cargo[j] < toTopUp) {
                         //fill up as many bottles as it has
                         toTopUp = cargo[j];
+                        unreplenished += toTopUp;
                     }
 
                     cargo[j]-=toTopUp;
