@@ -38,7 +38,7 @@ Printer::Printer(unsigned int numStudents, unsigned int numVendingMachines, unsi
 
 Printer::~Printer() {
     //print ending header
-    cout << "***********************";
+    cout << "***********************" << endl;
 }
 
 void Printer::StateData::print(){
@@ -89,13 +89,13 @@ void Printer::flush(pair<Kind,unsigned int> keyCheck){
     if(!dataBuffer.count(keyCheck)){return;}
 
     // flush from parent to bottling plant (0 to 5)
-    for (unsigned int kind = 0; kind < 5; kind++){
+    for (unsigned int kind = 0; kind < 6; kind++){
         //check if the kind exists in the map
         pair<Kind, unsigned int> key = make_pair(static_cast<Kind>(kind),0);
         if(dataBuffer.count(key)>0){
             dataBuffer[key].print();
         }
-        if (kind!=4){cout << "\t";} // print a tab if not last column
+        cout << "\t";
     }
 
     // flush the data with lids
@@ -106,9 +106,9 @@ void Printer::flush(pair<Kind,unsigned int> keyCheck){
         if(dataBuffer.count(key)>0){
             dataBuffer[key].print();
         }
-        if(lid!=numStudents-1){cout<<"\t";} // print a tab if not last column
+        cout << "\t";
     }
-
+    
     for(unsigned int lid =0; lid < numVendingMachines; lid++){
         // make a key with the vending kind and lid
         pair<Kind, unsigned int> key = make_pair(Vending,lid);
@@ -116,9 +116,9 @@ void Printer::flush(pair<Kind,unsigned int> keyCheck){
         if(dataBuffer.count(key)>0){
             dataBuffer[key].print();
         }
-        if(lid!=numVendingMachines-1){cout<<"\t";} // print a tab if not last column
+        cout << "\t";
     }
-
+    
     for(unsigned int lid =0; lid < numCouriers; lid++){
         // make a key with the courier kind and lid
         pair<Kind, unsigned int> key = make_pair(Courier,lid);

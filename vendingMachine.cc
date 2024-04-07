@@ -22,7 +22,7 @@ F finished
 VendingMachine::VendingMachine( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int sodaCost ):
     printer(prt), nameServer(nameServer), id(id), sodaCost(sodaCost) {
     
-    printer.print(Printer::Vending, id, 'S', id, sodaCost);
+    printer.print(Printer::Vending, id, 'S', sodaCost);
 
     // A new vending machine is empty (no stock)
     for ( unsigned int i = 0; i < BottlingPlant::Flavours::NUM_OF_FLAVOURS; i++ ) {
