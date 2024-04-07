@@ -55,7 +55,7 @@ void Truck::main() {
             // until truck has made a complete cycle of all the vending machines
             for (unsigned int i = 0; i < numVendingMachines; i++) {
                 //loop until there is no more soda
-                if (totalSodas == 0) {
+                if (totalSodas <= 0) {
                     break;
                 }
 

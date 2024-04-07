@@ -13,8 +13,6 @@ _Task VendingMachine {
 
 	unsigned int sodasInStock[BottlingPlant::NUM_OF_FLAVOURS];
 	
-	bool restocking;
-
     unsigned int id;
     unsigned int sodaCost;
 	void main();

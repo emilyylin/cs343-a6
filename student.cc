@@ -29,7 +29,7 @@ void Student::main () {
     WATCard::FWATCard giftcard = groupoff.giftCard();
 
     //card used to make the payment
-    WATCard* card;
+    WATCard* card = nullptr;
 
     //obtain location of a vending machine from the nameserver
     VendingMachine * v = nameServer.getMachine(id);
@@ -49,9 +49,10 @@ void Student::main () {
                         
                         v->buy(faveFlavour,*card);
                         printer.print(Printer::Student, id, 'G', faveFlavour, card->getBalance());
-
                         // reset to prevent further usage
                         giftcard.reset();
+                        delete giftcard();
+                        
                         break; // break out of the for loop, start next purchase
                     } catch (VendingMachine::Free &){
                         printer.print(Printer::Student, id, 'a', faveFlavour, card->getBalance());
@@ -70,6 +71,7 @@ void Student::main () {
                     }
                 }         
             } catch(WATCardOffice::Lost){
+                printer.print(Printer::Student, id, 'L');
                 watcard.reset();
                 //create a new WATCard from the WATCardOffice with a $5 balance
                 watcard = cardOffice.create(id, 5);
@@ -97,6 +99,18 @@ void Student::main () {
             }
         } // for(;;)
     } // for(i<numBottles)
+
+    printer.print(Printer::Student, id, 'F');
+    // delete watcard
+    _Select (watcard){
+        try{
+            delete watcard();
+        } catch (WATCardOffice:: Lost&){
+            printer.print(Printer::Student, id, 'L');
+        }
+    }
+    
+
 } // main
 
 

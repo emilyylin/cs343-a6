@@ -35,33 +35,26 @@ VendingMachine::VendingMachine( Printer & prt, NameServer & nameServer, unsigned
 }
 
 void VendingMachine::main () {
-    
-    restocking = false;
 
     while (true) {
         // Use concurrent exceptions to raise Funds, Stock or Free on the correct task.
         try {
-            _When(!restocking) _Accept(~VendingMachine) {
+            _Accept(~VendingMachine) {
                 //skip to finished
                 break;
 
             } or _Accept(inventory) {
-                restocking=true;
 
                 //start reloading by truck
                 printer.print(Printer::Vending, id, 'r');
 
+                //don't accept buys during restocking
                 _Accept (restocked) {
                     //finish reloading by truck
                     printer.print(Printer::Vending, id, 'R'); 
                 }
 
-            // The vending machine cannot accept buy calls during restocking
-            } or _When(!restocking) _Accept (buy) {
-
-            } or _Accept(restocked) {
-                restocking=false;
-            }
+            } or _Accept (buy) {}
 
         } catch (uMutexFailure::RendezvousFailure &) {
             //all exceptions go to student
@@ -107,7 +100,6 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
 
 // the truck calls restocked to indicate the operation is complete
 void VendingMachine::restocked () {
-    restocking=false;
 }
 
 // The truck calls inventory to return a pointer to an array containing the amount each kind of soda currently in the vending machine.
