@@ -1,13 +1,22 @@
-config.o: config.cc /usr/local/u++-7.0.0/inc/uC++.h \
- /usr/local/u++-7.0.0/inc/unwind-cxx.h /usr/local/u++-7.0.0/inc/unwind.h \
- /usr/local/u++-7.0.0/inc/assert.h /usr/local/u++-7.0.0/inc/uDebug.h \
- /usr/local/u++-7.0.0/inc/uAlign.h /usr/local/u++-7.0.0/inc/uStack.h \
- /usr/local/u++-7.0.0/inc/uCollection.h /usr/local/u++-7.0.0/inc/uQueue.h \
- /usr/local/u++-7.0.0/inc/uSequence.h /usr/local/u++-7.0.0/inc/uBitSet.h \
- /usr/local/u++-7.0.0/inc/uDefault.h /usr/local/u++-7.0.0/inc/uRandom.h \
- /usr/local/u++-7.0.0/inc/uAtomic.h /usr/local/u++-7.0.0/inc/uHeapLmmm.h \
- /usr/local/u++-7.0.0/inc/uEHM.h /usr/local/u++-7.0.0/inc/uCalendar.h \
- /usr/local/u++-7.0.0/inc/uAlarm.h /usr/local/u++-7.0.0/inc/uPIHeap.h \
- /usr/local/u++-7.0.0/inc/uHeap.h \
- /usr/local/u++-7.0.0/inc/uBaseSelector.h \
- /usr/local/u++-7.0.0/inc/fstream config.h
+config.o: config.cc /mnt/c/Users/emily/CS343/a6/ucpp/source/inc/uC++.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/unwind-cxx.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/unwind.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/assert.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uDebug.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uAlign.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uStack.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uCollection.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uQueue.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uSequence.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uBitSet.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uDefault.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uRandom.h \
+ /mnt/c/Users/emily/CS343/a6/ucpp/source/inc/uAtomic.h \
+ /mnt/c/Users/emily/CS343/a6/ucpp/source/inc/uHeapLmmm.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uEHM.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uCalendar.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uAlarm.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uPIHeap.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uHeap.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/uBaseSelector.h \
+ /mnt/c/Users/emily/CS343/a6/uCPP/source/inc/fstream config.h

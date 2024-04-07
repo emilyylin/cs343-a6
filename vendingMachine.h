@@ -19,9 +19,9 @@ _Task VendingMachine {
 
   public:
 
-	_Event Free {};						// free, advertisement
-	_Event Funds {};					// insufficient funds
-	_Event Stock {};					// flavour out of stock
+	_Exception Free {};						// free, advertisement
+	_Exception Funds {};					// insufficient funds
+	_Exception Stock {};					// flavour out of stock
 
 	VendingMachine( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int sodaCost );
 
