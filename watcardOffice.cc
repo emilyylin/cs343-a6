@@ -40,6 +40,11 @@ void WATCardOffice::Courier::main() {
         // withdraw to transfer money for student
         bank.withdraw(job->sid, job->amount);
 
+        // check if a card exists yet, if not, create it
+        if (job->card == nullptr){
+            job->card = new WATCard();
+        }
+
         // updates the student's watcard
         job->card->deposit(job->amount);
         
@@ -49,7 +54,7 @@ void WATCardOffice::Courier::main() {
             printer.print(Printer::Courier, id, 'L', job->sid);
 
             // exception WATCardOffice::Lost is inserted into the future
-            job->result.exception(new Lost);
+            job->result.delivery(new Lost);
 
             // the current watcard is deleted
             delete job->card;
@@ -57,6 +62,7 @@ void WATCardOffice::Courier::main() {
         } else {
             
             //work call complete
+            job->result.delivery(job->card);
             printer.print(Printer::Courier, id, 'T', job->sid, job->amount);
 
         }
@@ -66,6 +72,7 @@ void WATCardOffice::Courier::main() {
     } 
     
     //finish
+    cout << "FINISH COURIER" << endl;
     printer.print(Printer::Courier, id, 'F');
 }
 

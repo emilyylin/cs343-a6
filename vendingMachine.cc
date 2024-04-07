@@ -71,11 +71,11 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
 
     //checks first if the student has sufficient funds to purchase the soda
     if (card.getBalance() < sodaCost ) {
-        _Throw VendingMachine::Funds();
+        throw VendingMachine::Funds();
 
     //checks second if the specified soda is available
     } else if (sodasInStock[flavour]==0) {
-        _Throw VendingMachine::Stock();
+        throw VendingMachine::Stock();
 
     } else {
         sodasInStock[flavour]--;
@@ -83,8 +83,9 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
         // Once a purchase is possible, there is a 1 in 5 chance the soda is free
         // indicated by raising exception Free
         if (prng(1,5)==1) {
-            _Throw VendingMachine::Free();
-            printer.print(Printer::Vending, id, 'A');
+             printer.print(Printer::Vending, id, 'A');
+            throw VendingMachine::Free();
+           
 
         } else {
             // the student’s WATCard is debited by the cost of a soda

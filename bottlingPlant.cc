@@ -13,11 +13,6 @@ BottlingPlant::~BottlingPlant() {
 }
 
 void BottlingPlant::getShipment( unsigned int cargo[] ){
-    //bottling plant closes down is there is no stock
-    if(maxStockPerFlavour == 0){
-        _Throw Shutdown();
-    } 
-    
     // else copy the shipment into the cargo
     for (int i =0; i < NUM_OF_FLAVOURS; i++){
         cargo[i] = shipment[i];
@@ -50,10 +45,12 @@ void BottlingPlant::main(){
             //shipment picked up  by truck
             printer.print(Printer::BottlingPlant, 'P');
         } or _Accept(~BottlingPlant) {
-            _Accept(getShipment) {              // let truck finish
-                _Resume Shutdown() _At truck;   // resume the exception at the truck which will stop when it catches it
-            }
-            break;
+            try{
+                _Accept(getShipment) {              // let truck finish
+                    _Resume Shutdown() _At truck;   // resume the exception at the truck which will stop when it catches it
+                } 
+            } catch (uMutexFailure::RendezvousFailure &) {}
+             break;
         }
     }
 }

@@ -35,8 +35,8 @@ void Truck::main() {
     VendingMachine ** vendingMachines = nameServer.getMachineList();
 
     try {  
+        _Enable{
         for (;;) {
-
             yield(prng(1,10)); // yield to get coffee
             
             // try to get a shippment
@@ -68,7 +68,6 @@ void Truck::main() {
                 unsigned int *currStock = machine->inventory();
 
                 unsigned int unreplenished = 0;
-
                 for (unsigned int j = 0; j < BottlingPlant::NUM_OF_FLAVOURS; j++) {
                     
                     //check if truck has enough stock to top up
@@ -96,16 +95,16 @@ void Truck::main() {
                 machine->restocked();
                 
                 currVM = (currVM+1)%numVendingMachines; // increment next vending machine
-            }
 
-            //flat tire 
+                //flat tire 
             if (prng(1,100)==1) {
                 printer.print(Printer::Truck, 'W');
                 yield(10);
             }
+            }
 
         }
-
+        }
     // when the plant shuts down, exit
     } catch (BottlingPlant::Shutdown &) {}
 

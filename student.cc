@@ -46,13 +46,11 @@ void Student::main () {
                 _Select(giftcard){ // use giftcard first
                     try{
                         card = giftcard();
-                        
                         v->buy(faveFlavour,*card);
                         printer.print(Printer::Student, id, 'G', faveFlavour, card->getBalance());
                         // reset to prevent further usage
                         giftcard.reset();
-                        delete giftcard();
-                        
+                        //delete giftcard(); // this breaks the code
                         break; // break out of the for loop, start next purchase
                     } catch (VendingMachine::Free &){
                         printer.print(Printer::Student, id, 'a', faveFlavour, card->getBalance());
