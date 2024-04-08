@@ -101,14 +101,8 @@ void Student::main () {
     printer.print(Printer::Student, id, 'F');
     // delete watcard
     _Select (watcard){
-        try{
-            delete watcard();
-        } catch (WATCardOffice:: Lost&){
-            printer.print(Printer::Student, id, 'L');
-        }
+        delete watcard();
     }
-    
-
 } // main
 
 

@@ -45,11 +45,9 @@ void BottlingPlant::main(){
             //shipment picked up  by truck
             printer.print(Printer::BottlingPlant, 'P');
         } or _Accept(~BottlingPlant) {
-            try{
-                _Accept(getShipment) {              // let truck finish
-                    _Resume Shutdown() _At truck;   // resume the exception at the truck which will stop when it catches it
-                } 
-            } catch (uMutexFailure::RendezvousFailure &) {}
+            _Accept(getShipment) {              // let truck finish
+                _Resume Shutdown() _At truck;   // resume the exception at the truck which will stop when it catches it
+            } 
              break;
         }
     }
