@@ -48,11 +48,10 @@ void NameServer::main() {
         //wait for call to destructor to terminate
         _Accept(~NameServer) {
             break;
-        } _Else {
-            // when all the are registered, let a  student get a machine or a truck to get machine list
-            _When (currMachine == numVendingMachines) _Accept(getMachine || getMachineList);
-            // if the machines are not all registered, only let registration happen
-            or _When (currMachine < numVendingMachines) _Accept(VMregister);
-        }
+        // once all the machines have been created
+        } or _When (currMachine == numVendingMachines) _Accept(getMachine || getMachineList);
+        // if the machines are not all registered, only let registration happen
+        or _When (currMachine < numVendingMachines) _Accept(VMregister);
+        
     }
 }

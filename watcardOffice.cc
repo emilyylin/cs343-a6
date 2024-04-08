@@ -72,7 +72,6 @@ void WATCardOffice::Courier::main() {
     } 
     
     //finish
-    cout << "FINISH COURIER" << endl;
     printer.print(Printer::Courier, id, 'F');
 }
 
@@ -83,6 +82,7 @@ void WATCardOffice::main() {
         _When (!jobs.empty()) _Accept (requestWork) { // while there are still jobs, accept work
             printer.print(Printer::WATCardOffice, 'W'); //request work call complete
         } or _Accept (~WATCardOffice) { // finished work when jobs list is empty
+			_Accept(requestWork); // terminate
             break;
         } or _Accept(transfer || create) {};
     }
