@@ -35,7 +35,7 @@ _Task WATCardOffice {
 	void main();
 
   public:
-	_Event Lost {};							// lost WATCard
+	_Exception Lost {};							// lost WATCard
 	
 	WATCardOffice( Printer & prt, Bank & bank, unsigned int numCouriers );
 	~WATCardOffice();
