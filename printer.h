@@ -32,6 +32,6 @@ _Monitor Printer {
 		void print();
 	};
 	map<pair<Kind,unsigned int>, StateData> dataBuffer;
-	void flush(pair<Kind,unsigned int> key);
+	void flush();
 };
 #endif

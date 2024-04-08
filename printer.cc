@@ -37,6 +37,8 @@ Printer::Printer(unsigned int numStudents, unsigned int numVendingMachines, unsi
 }
 
 Printer::~Printer() {
+    // flush last finish
+    flush();
     //print ending header
     cout << "***********************" << endl;
 }
@@ -50,44 +52,41 @@ void Printer::StateData::print(){
 
 void Printer::print( Kind kind, char state ){
     pair<Kind, unsigned int> key = make_pair(kind,0);           //set lid=0 by default
-    flush(key);                                                 // flush the current buffer
+    if(dataBuffer.count(key)) {flush();}                        // flush the current buffer
     dataBuffer.insert({key, StateData(state)});                 // insert the data
 }
 
 void Printer::print( Kind kind, char state, unsigned int value1 ){
     pair<Kind, unsigned int> key = make_pair(kind,0);           //set lid=0 by default
-    flush(key);                                                 // flush the current buffer
+    if(dataBuffer.count(key)) {flush();}                        // flush the current buffer
     dataBuffer.insert({key, StateData(state,value1)});          // insert the data
 }
 
 void Printer::print( Kind kind, char state, unsigned int value1, unsigned int value2 ){
     pair<Kind, unsigned int> key = make_pair(kind,0);           //set lid=0 by default
-    flush(key);                                                 // flush the current buffer
+    if(dataBuffer.count(key)) {flush();}                        // flush the current buffer
     dataBuffer.insert({key, StateData(state,value1,value2)});   // insert the data
 }
 
 void Printer::print( Kind kind, unsigned int lid, char state ){
     pair<Kind, unsigned int> key = make_pair(kind,lid);         // make a key with the kind and lid
-    flush(key);                                                 // flush the current buffer
+    if(dataBuffer.count(key)) {flush();}                        // flush the current buffer
     dataBuffer.insert({key, StateData(state)});                 // insert the data
 }
 
 void Printer::print( Kind kind, unsigned int lid, char state, unsigned int value1 ){
     pair<Kind, unsigned int> key = make_pair(kind,lid);          // make a key with the kind and lid
-    flush(key);                                                  // flush the current buffer
+    if(dataBuffer.count(key)) {flush();}                          // flush the current buffer
     dataBuffer.insert({key, StateData(state,value1)});           // insert the data
 }
 
 void Printer::print( Kind kind, unsigned int lid, char state, unsigned int value1, unsigned int value2 ){
     pair<Kind, unsigned int> key = make_pair(kind,lid);         // make a key with the kind and lid
-    flush(key);                                                 // flush the current buffer
+    if(dataBuffer.count(key)) {flush();}                        // flush the current buffer
     dataBuffer.insert({key, StateData(state,value1,value2)});   // insert the data
 }
 
-void Printer::flush(pair<Kind,unsigned int> keyCheck){
-    //check for existence in buffer, if it doesn't exist, return
-    if(!dataBuffer.count(keyCheck)){return;}
-
+void Printer::flush(){
     // flush from parent to bottling plant (0 to 5)
     for (unsigned int kind = 0; kind < 6; kind++){
         //check if the kind exists in the map
