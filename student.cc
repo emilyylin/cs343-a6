@@ -68,7 +68,7 @@ void Student::main () {
                         throw VendingMachine::Free();
                     }
                 }         
-            } catch(WATCardOffice::Lost){
+            } catch(WATCardOffice::Lost &){
                 printer.print(Printer::Student, id, 'L');
                 watcard.reset();
                 //create a new WATCard from the WATCardOffice with a $5 balance
