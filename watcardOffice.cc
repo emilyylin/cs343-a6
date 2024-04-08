@@ -50,7 +50,6 @@ void WATCardOffice::Courier::main() {
         
         // 1 in 6 chance that card is lost
         if (prng(6) == 0) {
-
             printer.print(Printer::Courier, id, 'L', job->sid);
 
             // exception WATCardOffice::Lost is inserted into the future
@@ -60,17 +59,13 @@ void WATCardOffice::Courier::main() {
             delete job->card;
 
         } else {
-            
-            //work call complete
+            //work call complete, deliver the watcard
             job->result.delivery(job->card);
             printer.print(Printer::Courier, id, 'T', job->sid, job->amount);
 
         }
-
         delete job;
-
     } 
-    
     //finish
     printer.print(Printer::Courier, id, 'F');
 }
@@ -96,7 +91,6 @@ WATCardOffice::WATCardOffice( Printer & prt, Bank & bank, unsigned int numCourie
         printer.print(Printer::Courier, i, 'S');
         couriers[i] = new Courier(i, *this, printer, bank);
     }
-
 }
 
 WATCardOffice::~WATCardOffice() {
@@ -135,9 +129,10 @@ WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount
 // called by courier task
 WATCardOffice::Job * WATCardOffice::requestWork(){
     // blocks until a job request is ready and then receieves the next job request as the result of the call
-    if (jobs.empty()) return nullptr;
+    if (jobs.empty()) return nullptr;  // if no more jobs, return null
+
+    // get a job from the front of the queue and return it
     Job *job = jobs.front();
     jobs.pop();
-
     return job;
 }

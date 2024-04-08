@@ -6,7 +6,7 @@ Parent::Parent( Printer & prt, Bank & bank, unsigned int numStudents, unsigned i
 
 Parent::~Parent() {
     printer.print(Printer::Parent, 'F');
-}
+} // ~Parent
 
 void Parent::main() {
     //start
@@ -25,6 +25,6 @@ void Parent::main() {
             int giftAmount = prng(1,3);
             printer.print(Printer::Parent,'D', student, giftAmount);
             bank.deposit(student, giftAmount);
-        }
-    }
-}
+        } // accept
+    } // for
+} // main
