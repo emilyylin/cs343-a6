@@ -55,7 +55,7 @@ void Truck::main() {
             // until truck has made a complete cycle of all the vending machines
             for (unsigned int i = 0; i < numVendingMachines; i++) {
                 //loop until there is no more soda
-                if (totalSodas <= 0) {
+                if (totalSodas == 0) {
                     break;
                 }
 
@@ -97,15 +97,13 @@ void Truck::main() {
                 currVM = (currVM+1)%numVendingMachines; // increment next vending machine
 
                 //flat tire 
-            if (prng(1,100)==1) {
-                printer.print(Printer::Truck, 'W');
-                yield(10);
+                if (prng(1,100)==1) {
+                    printer.print(Printer::Truck, 'W');
+                    yield(10);
+                }
             }
-            }
-            
         }
     // when the plant shuts down, exit
     } catch (BottlingPlant::Shutdown &) {}
-
     printer.print(Printer::Truck, 'F'); // finish
 }
