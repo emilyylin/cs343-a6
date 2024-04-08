@@ -35,7 +35,7 @@ void Truck::main() {
     VendingMachine ** vendingMachines = nameServer.getMachineList();
 
     try {  
-        _Enable{
+        //_Enable{
         for (;;) {
             yield(prng(1,10)); // yield to get coffee
             
@@ -102,8 +102,7 @@ void Truck::main() {
                 yield(10);
             }
             }
-
-        }
+            
         }
     // when the plant shuts down, exit
     } catch (BottlingPlant::Shutdown &) {}
