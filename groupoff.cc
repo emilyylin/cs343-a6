@@ -43,7 +43,10 @@ void Groupoff::main() {
             //remove giftcard
             giftCards.erase(giftCards.begin()+randStudent);
         }
+
     }
+
+    printer.print(Printer::Groupoff, 'F');
 
 }
 
@@ -54,7 +57,6 @@ Groupoff::Groupoff ( Printer & prt, unsigned int numStudents, unsigned int sodaC
 }
 
 Groupoff::~Groupoff () {
-    printer.print(Printer::Groupoff, 'F');
 }
 
 

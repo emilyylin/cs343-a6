@@ -2,77 +2,49 @@ Parent	Gropoff	WATOff	Names	Truck	Plant	Stud0	Stud1	Mach0	Mach1	Mach2	Cour0
 *******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******
 S	S	S	S					S2			S
 			R0						S2		
-D0,2			R1							S2	
-		C0,5	R2		S	S3,7					
-D0,1		W	N0,0	S	G7	V0	S3,7				t0,5
-		C1,5	N1,0	P7			V0				
-				d0,7							
-				U0,7	P			r			
-D0,1	D2			D0,0	G7			R			
-D0,2						G3,0		B3,1			T0,5
-		W		P7		B3,3		B3,0			t1,5
-				d1,7							
-				U1,7							
-D1,2			N0,1	D1,0	P	V1			r		
-					G5				R		
-				P5		B3,1			B3,1		
-				d2,5							
-				U2,5							
-D0,3	D2	T0,7		D2,0	P					r	
-D1,2				P3	G3					R	
-				d0,3							
-				U0,3							
-D0,2				D0,0	P			r			
-D1,2					G9			R			T1,5
-		W		P9			B3,3	B3,0			t0,7
-				d1,9							
+D1,2			R1							S2	
+		C0,5	R2		S	S3,4					
+D0,3		W	N0,0	S	G5	V0	S2,3				t0,5
+		C1,5	N1,0	P5			V0				
+				d0,5							
+				U0,5							
+D0,2				D0,0	P			r			T0,5
+D0,1		W	N0,1		G4	V1		R			t1,5
+	D2		N0,2			V2	G2,0	B2,2			
+			N0,0			V0					
+D1,2			N0,1			V1					
+			N0,2	P4		V2					
+				d1,4							
 				U1,4							
-D1,2			N1,1	D1,0	P		V1		r		
-					G8				R		
-				P8			B3,1		B3,3		
-				d2,8							
-				U2,5							
-D1,3		T1,7		D2,0	P					r	
-				P2	G2					R	
-				d0,2							
-				U0,2							
-D0,3				D0,0	P			r			L0
-		W			G5	L		R			t1,7
-D1,2		C0,5		P5							
-				d1,5							
+			N0,0	D1,0	P	V0			r		
+D0,3			N0,1			V1			R		
+	D2			P6	G6	B3,3			B3,0		
+				d2,6							
+				U2,6	P					r	
+D1,2			N0,2	D2,0	G9	V2		B2,1		R	T1,5
+D0,2				P9	P	B3,1	B2,3			B3,1	
+				d0,9							
+				U0,9							
+D1,3				D0,0	G2			r			
+								R			
+							B2,1	B2,3			
+D1,1		T0,7		P2			F				t0,7
+				d1,2							
 				U1,2							
-				D1,3							L1
-		W		d2,3	P		L		r		t0,5
-				U2,3							
-D0,3		C1,5		D2,0	G3				R	r	
-										R	T0,5
-		W		P3		B3,3			B3,3		t1,5
-				d0,3							
-				U0,2							
-D1,3				D0,0	P	A3,3		r	A		
-D1,1				P5	G5		B3,3	R	B3,1		T1,5
-				d1,5							
-				U1,4							
-D1,2				D1,1	P				r		
-				d2,1							
-				D2,0	G7				R	r	
-						B3,1			B3,3		
-D1,2		T1,7				F	B3,1		B3,2	R	
-D0,1		W		P7							t1,7
-				d0,7							
-				U0,1							
-				D0,5	P			r			
-D1,3				d1,5				R			
-				D1,5	G7				r		T1,7
-				d2,5							
-D1,3				D2,3					R	r	
-							B3,6		B3,1		
-D0,2				W			F			R	
-D1,1				P7							
-				d0,7							
-				D0,5				r			
-D0,2				F	F			F	F		
-D1,3	F		F							F	
-D0,2		F									F
-D1,2											
+D1,3		W		D1,0	P				r		
+D0,2				P6	G6				R		T0,7
+				d2,6							
+				U2,6							
+				D2,0	P					r	
+D0,1					G8					R	
+						B3,6				B3,3	
+D0,1				P8		F					
+				d0,8							
+				U0,3							
+				D0,1				r			
+D0,1				F	F			F	F		
+D1,2	F		F							F	
+D0,3		F									F
+D0,3											
+F											
 ***********************
