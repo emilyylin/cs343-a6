@@ -17,12 +17,13 @@ void Parent::main() {
         _Accept(~Parent) { //parent checks for a call to its destructor to know when to terminate
             break;
         } _Else { //terminating else 
-            //first yield
-            yield(parentalDelay);
+            yield(parentalDelay); //first yield
             
-            //transfer random money [1,3]  to random student [0, numStudents)
+            // pick a random student and a random gift amount
             int student = prng(numStudents);
             int giftAmount = prng(1,3);
+            
+            // deposit the money to the student's bank account
             printer.print(Printer::Parent,'D', student, giftAmount);
             bank.deposit(student, giftAmount);
         } // accept
