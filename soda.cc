@@ -42,7 +42,7 @@ int main( int argc, char * argv[] ) {
 				break;
 			default:
 				throw cmd_error{};
-		}
+		} //switch (argc)
 	} catch( ... ) {									// catch any
 		cerr << "Usage: " << argv[0]
 			 << " [ config-file | 'd' (default " << DefaultConfigFile
@@ -92,4 +92,4 @@ int main( int argc, char * argv[] ) {
 	for (unsigned int i =0; i < config.numVendingMachines; i++){	// delete vending machines
 		delete vendingMachines[i];
 	}
-}
+} //main()

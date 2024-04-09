@@ -4,7 +4,7 @@ Groupoff::Groupoff ( Printer & prt, unsigned int numStudents, unsigned int sodaC
     printer(prt), numStudents(numStudents), sodaCost(sodaCost), groupoffDelay(groupoffDelay) {
         currStudent=0;
         giftCards.resize(numStudents);
-}
+} // Groupoff
 
 void Groupoff::main() {
 

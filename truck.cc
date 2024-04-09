@@ -24,7 +24,7 @@ F finished
 Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant, unsigned int numVendingMachines, unsigned int maxStockPerFlavour ):
     printer(prt), nameServer(nameServer), plant(plant), numVendingMachines(numVendingMachines), maxStockPerFlavour(maxStockPerFlavour) {
 
-}
+} //Truck()
 
 void Truck::main() {
     
@@ -79,7 +79,7 @@ void Truck::main() {
                     totalSodas -= added;
                     unreplenished += toTopUp > added ? toTopUp - added : 0;
 
-                } 
+                } // for (NUM_OF_FLAVOURS)
 
                 // if there are more than 0 unreplenished bottles, print
                 if (unreplenished > 0) {
@@ -96,9 +96,9 @@ void Truck::main() {
                 if (prng(1,100)==1) {
                     printer.print(Printer::Truck, 'W');
                     yield(10);
-                }
-            }
-        }
+                } //if (prng(1,100)==1)
+            } //for (numVendingMachines)
+        } // for(;;)
     // when the plant shuts down, exit
     } catch (BottlingPlant::Shutdown &) {}
     printer.print(Printer::Truck, 'F'); // finish

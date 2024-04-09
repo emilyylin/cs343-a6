@@ -30,10 +30,11 @@ void Bank::deposit( unsigned int id, unsigned int amount ) {
 } // deposit
 
 void Bank::withdraw( unsigned int id, unsigned int amount ) {
+    
     // The courier waits until enough money has been deposited, which may require multiple deposits.
     while (balance[id] < amount ) {
         accountWait[id].wait();
-    }
+    } //while
 
     balance[id]-=amount; // remove the amount from the balance
 } // withdraw

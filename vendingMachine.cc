@@ -13,11 +13,11 @@ VendingMachine::VendingMachine( Printer & prt, NameServer & nameServer, unsigned
     // A new vending machine is empty (no stock)
     for ( unsigned int i = 0; i < BottlingPlant::Flavours::NUM_OF_FLAVOURS; i++ ) {
         sodasInStock[i] = 0;
-    } // for
+    } // for (numFlavors)
     
     //begins by registering with the name server
     nameServer.VMregister(this);
-}
+} //VendingMachine()
 
 void VendingMachine::main () {
 
@@ -36,18 +36,19 @@ void VendingMachine::main () {
                 _Accept (restocked) {
                     //finish reloading by truck
                     printer.print(Printer::Vending, id, 'R'); 
-                }
+                } // _Accept
 
             } or _Accept (buy) {}
 
         } catch (uMutexFailure::RendezvousFailure &) {
             //all exceptions go to student
-        }
-    }
+        } //try
+    } //while (true)
 
     //finished
     printer.print(Printer::Vending, id, 'F');
-}
+
+} //main()
 
 void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
 
@@ -68,16 +69,15 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
              printer.print(Printer::Vending, id, 'A');
             throw VendingMachine::Free();
            
-
         } else {
             // the student’s WATCard is debited by the cost of a soda
             card.withdraw(sodaCost);
-        } // if
+        } // if (prng(1,5)==1)
     } // if
     //student bought a soda
     printer.print(Printer::Vending, id, 'B', flavour, sodasInStock[flavour]);
 
-} // buy
+} // buy ()
 
 // the truck calls restocked to indicate the operation is complete
 void VendingMachine::restocked () {}

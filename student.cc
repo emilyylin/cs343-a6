@@ -55,7 +55,7 @@ void Student::main () {
                     } catch (VendingMachine::Free &){
                         printer.print(Printer::Student, id, 'a', faveFlavour, card->getBalance());
                         throw VendingMachine::Free();
-                    }
+                    } //try
 
                 } or _Select(watcard){
                     try {
@@ -66,8 +66,8 @@ void Student::main () {
                     } catch (VendingMachine::Free &) {
                         printer.print(Printer::Student, id, 'A', faveFlavour, card->getBalance());
                         throw VendingMachine::Free();
-                    }
-                }         
+                    } //try
+                } //_select      
             } catch(WATCardOffice::Lost &){
                 printer.print(Printer::Student, id, 'L');
                 watcard.reset();
@@ -94,7 +94,8 @@ void Student::main () {
             } catch (VendingMachine::Stock &){
                 v = nameServer.getMachine(id);
                 printer.print(Printer::Student, id, 'V', v->getId());
-            }
+            } //try
+
         } // for(;;)
     } // for(i<numBottles)
 
@@ -105,7 +106,7 @@ void Student::main () {
         delete watcard();
     } catch (WATCardOffice:: Lost&){
         printer.print(Printer::Student, id, 'L');
-    }
+    } // try
 
 } // main
 

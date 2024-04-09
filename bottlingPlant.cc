@@ -10,7 +10,7 @@ BottlingPlant::BottlingPlant( Printer & prt, NameServer & nameServer, unsigned i
 
 BottlingPlant::~BottlingPlant() {
     printer.print(Printer::BottlingPlant, 'F');
-} // ~BottlingPlan
+} // ~BottlingPlant
 
 void BottlingPlant::getShipment( unsigned int cargo[] ){
     // copy the shipment into the cargo

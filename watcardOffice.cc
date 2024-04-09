@@ -63,12 +63,12 @@ void WATCardOffice::Courier::main() {
             job->result.delivery(job->card);
             printer.print(Printer::Courier, id, 'T', job->sid, job->amount);
 
-        }
+        } // if (prng(6) == 0)
         delete job;
-    } 
+    } // for (;;)
     //finish
     printer.print(Printer::Courier, id, 'F');
-}
+} //main()
 
 void WATCardOffice::main() {
     printer.print(Printer::WATCardOffice, 'S');
@@ -80,27 +80,31 @@ void WATCardOffice::main() {
 			_Accept(requestWork); // terminate
             break;
         } or _Accept(transfer || create) {};
-    }
-}
+    } //for(;;)
+} //main()
 
 WATCardOffice::WATCardOffice( Printer & prt, Bank & bank, unsigned int numCouriers ) : 
     printer(prt), bank(bank), numCouriers(numCouriers){
     // initially creates a fixed size courier pool with num couriers to communicate with the bank
     couriers = new Courier* [numCouriers];
+
     for (unsigned int i = 0; i < numCouriers; i++){
         printer.print(Printer::Courier, i, 'S');
         couriers[i] = new Courier(i, *this, printer, bank);
-    }
-}
+    } //for (numCouriers)
+
+} //WatCardOffice()
 
 WATCardOffice::~WATCardOffice() {
     printer.print(Printer::WATCardOffice, 'F');
     // delete couriers
+
     for (unsigned int i =0; i < numCouriers; i++){
         delete couriers[i];
-    }
+    } //for (numCouriers)
+
     delete[] couriers;
-}
+} //~WatCardOffice()
 
 WATCard::FWATCard WATCardOffice::create( unsigned int sid, unsigned int amount ) {
     // create a real watcard with an initial balance
@@ -112,7 +116,7 @@ WATCard::FWATCard WATCardOffice::create( unsigned int sid, unsigned int amount )
     
     // a future watcard is returned and sufficient funds are obtained from the bank via a courier 
     return job->result;
-}
+} //create()
 
 // a future watcard is returned and sufficient funds are obtained from the bank
 // transfer funds from a student's bank account to watcard by sending a request through a courier to the bank
@@ -124,7 +128,7 @@ WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount
     
     // a future watcard is returned and sufficient funds are obtained from the bank via a courier 
     return job->result;
-}
+} //transfer()
 
 // called by courier task
 WATCardOffice::Job * WATCardOffice::requestWork(){
@@ -135,4 +139,4 @@ WATCardOffice::Job * WATCardOffice::requestWork(){
     Job *job = jobs.front();
     jobs.pop();
     return job;
-}
+} //requestwork()
