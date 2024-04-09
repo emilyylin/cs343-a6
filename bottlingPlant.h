@@ -21,6 +21,6 @@ _Task BottlingPlant {
     ~BottlingPlant(); // destructor
 	void getShipment( unsigned int cargo[] );
   private:
-    unsigned int shipment[NUM_OF_FLAVOURS] = {0};
+    unsigned int shipment[NUM_OF_FLAVOURS];
 };
 #endif

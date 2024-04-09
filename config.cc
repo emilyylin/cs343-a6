@@ -32,7 +32,7 @@ void processConfigFile( const char * configFile, ConfigParms & cparms ) {
 		{ "GroupoffDelay", false, cparms.groupoffDelay },
 		{ "ParentalDelay", false, cparms.parentalDelay },
 		{ "NumCouriers", false, cparms.numCouriers },
-	};
+	}; //struct
 	string name;
 	int value;
 	unsigned int cnt, posn, numOfParm = 0;
