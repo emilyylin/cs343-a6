@@ -69,7 +69,7 @@ void Student::main () {
                     yield(4);
                 } else {
                     printer.print(Printer::Student, id, 'X');
-                }
+                } //if (prng(2)==1)
                 break;
 
             // transfers the current vending-machine soda-cost plus $5 to their WATCard via the WATCard office

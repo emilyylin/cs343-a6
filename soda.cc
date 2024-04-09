@@ -73,7 +73,7 @@ int main( int argc, char * argv[] ) {
 	VendingMachine *vendingMachines[config.numVendingMachines];									// create vending machines
 	for (unsigned int i = 0; i < config.numVendingMachines; i++){
 		vendingMachines[i] = new VendingMachine(printer, nameServer, i, config.sodaCost);
-	}
+	} // for (vendingMachines)
 
 	BottlingPlant *bottlingPlant = new BottlingPlant(printer, nameServer, 						// create bottling plant
 	config.numVendingMachines, config.maxShippedPerFlavour, config.maxStockPerFlavour, config.timeBetweenShipments);
@@ -81,15 +81,15 @@ int main( int argc, char * argv[] ) {
 	Student *students[config.numStudents];														// create students
 	for (unsigned int i = 0; i < config.numStudents; i++){
 		students[i] = new Student(printer, nameServer, watcardOffice, groupoff, i, config.maxPurchases);
-	}
+	} //for (students)
 
 	for (unsigned int i = 0; i < config.numStudents; i++){			// delete students
 		delete students[i];
-	}
+	} // for (students)
 
 	// terminate after students have purchased their number of bottles
 	delete bottlingPlant; 											// delete bottling plant
 	for (unsigned int i =0; i < config.numVendingMachines; i++){	// delete vending machines
 		delete vendingMachines[i];
-	}
+	} //for (vending machines)
 } //main()
