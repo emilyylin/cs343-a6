@@ -25,9 +25,7 @@ void VendingMachine::main () {
         // Use concurrent exceptions to raise Funds, Stock or Free on the correct task.
         try {
             _Accept(~VendingMachine) {
-                //skip to finished
-                break;
-
+                break;  //skip to finished
             } or _Accept(inventory) {
                 //start reloading by truck
                 printer.print(Printer::Vending, id, 'r');
@@ -45,9 +43,7 @@ void VendingMachine::main () {
         } //try
     } //while (true)
 
-    //finished
-    printer.print(Printer::Vending, id, 'F');
-
+    printer.print(Printer::Vending, id, 'F'); //finish vending machine
 } //main()
 
 void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
@@ -74,9 +70,7 @@ void VendingMachine::buy ( BottlingPlant::Flavours flavour, WATCard & card ) {
             card.withdraw(sodaCost);
         } // if (prng(1,5)==1)
     } // if
-    //student bought a soda
-    printer.print(Printer::Vending, id, 'B', flavour, sodasInStock[flavour]);
-
+    printer.print(Printer::Vending, id, 'B', flavour, sodasInStock[flavour]); //student bought a soda
 } // buy ()
 
 // the truck calls restocked to indicate the operation is complete
@@ -85,14 +79,14 @@ void VendingMachine::restocked () {}
 // The truck calls inventory to return a pointer to an array containing the amount each kind of soda currently in the vending machine.
 unsigned int * VendingMachine::inventory () {
     return sodasInStock;
-}
+} // inventory
 
 // The cost member returns the cost of purchasing a soda for this machine
 _Nomutex unsigned int VendingMachine::cost() const {
     return sodaCost;
-}
+} // cost
 
 // The getId member returns the identification number of the vending machine.
 _Nomutex unsigned int VendingMachine::getId() const {
     return id;
-}
+} //getid

@@ -13,7 +13,7 @@ void Groupoff::main() {
     // accepting a call from all students to obtain a future gift-card
     for (unsigned int i = 0 ; i < numStudents; i++ ) {
         _Accept (giftCard);
-    }
+    } // for
 
     //loops until all the future gift-cards are assigned a real WATCard
     for (unsigned int i = 0 ; i < numStudents; i++ ) {

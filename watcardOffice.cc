@@ -2,25 +2,6 @@
 
 using namespace std;
 
-/*
-The WATCard office prints the following information:
-State Meaning Additional Information
-S starting
-W request work call complete
-C s,a create call complete student s, transfer amount a
-T s,a transfer call complete student s, transfer amount a
-F finished
-*/
-
-/*
-A courier prints the following information:
-S starting
-t s,a start funds transfer student s requesting transfer, amount a of transfer
-L s lost WATCard card student s requesting transfer
-T s,a complete funds transfer student s requesting transfer, amount a of transfer
-F finished
-*/
-
 WATCardOffice::Courier::Courier (unsigned int id, WATCardOffice &cardOffice, Printer &printer, Bank & bank): 
     id(id), cardOffice(cardOffice), printer(printer), bank(bank) {
 }

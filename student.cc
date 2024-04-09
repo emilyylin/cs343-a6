@@ -2,19 +2,6 @@
 
 using namespace std;
 
-/*
-State Meaning Additional Information
-S f,b starting favourite soda f, number of bottles b to purchase
-V v selecting vending machine vending machine v selected
-G f,b gift-card soda soda flavour f purchased, giftcard balance b
-B f,b bought soda soda flavour f purchased, WATCard balance b
-a f,b free soda, advertisement soda flavour f purchased, giftcard balance b
-A f,b free soda, advertisement soda flavour f purchased, WATCard balance b
-X did not watch advertisement
-L WATCard lost
-F finished
-*/
-
 void Student::main () {
     // start by selecting a random number of bottles to purchase
     unsigned int numBottles = prng(1,maxPurchases);

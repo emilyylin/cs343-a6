@@ -86,7 +86,7 @@ Flows:
 * Truck unreplished values are as expected
 
 Termination:
-* Groupoff terminates after assigning a real watcard to both students
+* Groupoff terminates after assigning a real watcard to all students
 * Truck terminates when Plant terminates
 * Finishing order is students, plant, vending machine, parents
 
@@ -192,10 +192,12 @@ F
 [Explanation:]
 * Student uses gift card first, and then Watcard. No purchase is made until parents deposit enough money.
 * After student loses Watcard, new watcard is created by watcardoffice
+* Courier throws lost exception to student
+* Truck gets a flat tire and prints W as expected
 
 TEST 3
 -------
-[Command: ./soda 4StudentsMachines.config] 
+[Command:] ./soda 4StudentsMachines.config 
 [Description:] Config file changed, all parameters kept the same except 
 NumStudents			5	# number of students to create
 NumVendingMachines		4	# number of vending machines
@@ -331,13 +333,57 @@ F
 [Explanation:]
 * Multiple students, vending machines initialized as expected from new config file
 * After all vending machines have been assigned to a student, loops around and assigns first vending machine to next student
+* Nameserver cycles through vending machines to ensure student has chance to visit every machine if flavor wanted doesn't exist
 * Each time truck restocks, starts from next from last unrestocked vending machine
-* student advertisement, free advertisement logic and watch ad logic works as expected
+* Student advertisement, free advertisement logic and watch ad logic works as expected
 
 TEST 4
 -------
-[Command:] 
-[Description:] 
+[Command:] ./soda oneStudent.config
+[Description:] Config file changed, all parameters kept the same except 
+NumStudents			1	# number of students to create
+MaxPurchases			2	# maximum number of bottles a student purchases
+NumVendingMachines		1	# number of vending machines
 [Output:]
-
+Parent  Gropoff WATOff  Names   Truck   Plant   Stud0   Mach0   Cour0
+******* ******* ******* ******* ******* ******* ******* ******* *******
+S       S       S       S                               S2      S
+                C0,5    R0              S       S0,2
+D0,1            W       N0,0    S       G7      V0              t0,5
+                                P7
+                                d0,7
+                                U0,13
+                                D0,0    P               r
+D0,1    D2                              G11             R
+D0,2    F               N0,0    P11             V0
+                        N0,0    d0,11   P       V0
+                                U0,3
+D0,1                            D0,1    G5              r       L0
+                                                        R
+D0,2                            P5              G0,0    B0,2
+                                d0,5
+                                U0,2
+                                D0,3    P               r
+D0,1            C0,5                    G8      L       R       t0,5
+D0,2            W               P8                              T0,5
+                                d0,8
+                                D0,6    P               r
+D0,2                                    G5              R
+                                                A0,5    A
+                                                X
+                                P5              F
+                                d0,5    P
+D0,1                            D0,4    G7              r
+                                P7                      R
+                                d0,7
+D0,2                            D0,7                    r
+D0,3                            F       F               R
+D0,2            F       F                               F       F
+D0,2
+F
+***********************
 [Explanation:]
+* Favorite flavor doesn't exist/is out of stock in v0 in the first restock, 
+  so student gets reassigned another vending machine (v0 in this case, as 
+  there is only one vending machine), until v0 gets restocked with favorite flavor
+* Giftcard gets lost, watcard office creates new job, and courier transfers funds into card to replace
