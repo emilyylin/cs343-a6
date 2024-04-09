@@ -93,7 +93,7 @@ Termination:
 TEST 2
 -------
 [Command: ./soda soda.config 55718 1] 
-[Description:] 
+[Description:] Example seed of 55718 with default soda.config
 [Output:]
 Parent  Gropoff WATOff  Names   Truck   Plant   Stud0   Stud1   Mach0   Mach1   Mach2   Cour0
 ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* ******* *******
