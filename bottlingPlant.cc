@@ -6,7 +6,14 @@ BottlingPlant::BottlingPlant( Printer & prt, NameServer & nameServer, unsigned i
 	unsigned int maxShippedPerFlavour, unsigned int maxStockPerFlavour, unsigned int timeBetweenShipments ) : 
         printer(prt), nameServer(nameServer), numVendingMachines(numVendingMachines), 
         maxShippedPerFlavour(maxShippedPerFlavour), maxStockPerFlavour(maxStockPerFlavour), 
-        timeBetweenShipments(timeBetweenShipments) {}
+        timeBetweenShipments(timeBetweenShipments) {
+            printer.print(Printer::BottlingPlant, 'S');  //start bottling plant
+
+            // initialize all shipment values to 0
+            for(unsigned int i = 0; i < NUM_OF_FLAVOURS; i++){
+                shipment[i] = 0;
+            }
+} // BottingPlant
 
 BottlingPlant::~BottlingPlant() {
     printer.print(Printer::BottlingPlant, 'F');
@@ -22,8 +29,6 @@ void BottlingPlant::getShipment( unsigned int cargo[] ){
 void BottlingPlant::main(){
     //begin by creating a truck, performing a production run, and waiting for the truck to pickup the production run. 
     Truck truck(printer, nameServer, *this, numVendingMachines, maxStockPerFlavour);
-
-    printer.print(Printer::BottlingPlant, 'S');  //start bottling plant
 
     for(;;) {
         yield(timeBetweenShipments); //bottling plant yields between production runs
